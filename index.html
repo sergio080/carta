@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>San Valentín</title>
+    <style>
+        body 
+        
+    
+        {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        img {
+            width: 250px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        button {
+            font-size: 1.2em;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #si {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #no {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+        }
+
+        /* Corazones */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            transform: rotate(45deg);
+            animation: float 8s linear infinite;
+            opacity: 0.7;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: -10px;
+            top: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Mensajes random */
+        .mensaje {
+            position: absolute;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            animation: aparecer 2s ease-in-out;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+
+        @keyframes aparecer {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+   <audio id="musica" loop>
+    <source src="musica.mp3.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio
+</audio>
+<script>
+    const musica = document.getElementById("musica");
+
+    function iniciarMusica() {
+        musica.play();
+        document.removeEventListener("click", iniciarMusica);
+    }
+
+    document.addEventListener("click", iniciarMusica);
+</script>
+
+    <div class="container">
+        <h1>Daniela ¿Quieres ser mi San Valentín?</h1>
+
+        <!-- Foto -->
+        <img src="foto.jpeg" alt="Nuestra foto 💖">
+
+        <br>
+        <button id="si">Sí 💖</button>
+        <button id="no">No 😢</button>
+    </div>
+
+    <script>
+        const botonNo = document.getElementById("no");
+        const botonSi = document.getElementById("si");
+
+        botonSi.addEventListener("click", () => {
+            alert("Sabia que dirias que si 💕");
+        });
+
+        // Botón No huye
+        botonNo.addEventListener("mouseover", () => {
+            const x = Math.random() * (window.innerWidth - botonNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - botonNo.offsetHeight);
+
+            botonNo.style.left = x + "px";
+            botonNo.style.top = y + "px";
+        });
+
+        // Corazones
+        function crearCorazon() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 3 + 5) + "s";
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        setInterval(crearCorazon, 300);
+
+        // Mensajes random
+        function crearMensaje() {
+            const mensaje = document.createElement("div");
+            mensaje.classList.add("mensaje");
+            mensaje.innerText = "Vamos… di que sí 💘";
+
+            mensaje.style.left = Math.random() * 80 + "vw";
+            mensaje.style.top = Math.random() * 80 + "vh";
+
+            document.body.appendChild(mensaje);
+
+            setTimeout(() => mensaje.remove(), 2000);
+        }
+
+        setInterval(crearMensaje, 2500);
+    </script>
+
+</body>
+</html>
